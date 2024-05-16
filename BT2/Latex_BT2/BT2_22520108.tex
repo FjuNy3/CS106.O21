@@ -1,0 +1,92 @@
+\documentclass[12pt, letterpaper]{article}
+\usepackage[top = 0.75cm, bottom = 0.75cm, left = 1in, right = 1in]{geometry}
+\usepackage[utf8]{inputenc}
+\usepackage[vietnamese]{babel}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{titlesec}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{multirow}
+\usepackage{dingbat}
+\geometry{margin=3cm}
+
+\renewcommand{\theenumi}{\bfseries\large\alph{enumi}}
+
+\title{
+	\large\textbf{TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN} \\
+	\large\textbf{KHOA KHOA HỌC MÁY TÍNH} \\
+	{---------------------o0o--------------------} \\
+	\vfill
+	\begin{figure}[h]
+		\centering 
+		\includegraphics[width=0.5\linewidth]{UIT} 
+	\end{figure}
+	\vfill
+	\textbf{BÁO CÁO MÔN TRÍ TUỆ NHÂN TẠO}\\	
+	\textbf{BÀI TẬP 02: Heuristics and A* Search} \\
+	\vskip 2cm
+	\vfill
+}
+
+\author{
+	\begin{tabular}{r l}
+		Giảng viên: &{Lương Ngọc Hoàng} \\
+		Sinh viên thực hiện:       &Nguyễn Gia Bảo - 22520108\\
+	\end{tabular}
+	\vspace{1cm}
+}
+
+\date{Thành phố Hồ Chí Minh, {\MakeLowercase{\today}}}
+
+\begin{document}
+\maketitle
+\pagebreak
+
+\section{Ý tưởng của heuristics}
+Heuristic được sử dụng để ước lượng chi phí từ vị trí của các hộp đến
+đích giúp thuật toán A* lựa chọn hướng di chuyển hiệu quả nhất để đạt được đích đến cuối cùng. \vspace{3mm} \\
+Heuristic có sẵn sử dụng khoảng cách Manhattan, tính khoảng cách ước lượng giữa các hộp đến vị trí đích bằng tổng khoảng cách theo hai trục x và y trong trạng thái hiện tại, sau đó cộng với tổng của chi phí đường đi. Nếu tổng này càng bé đồng nghĩa chi phí càng thấp, ta ưu tiên đi tới trạng thái này.
+\section{Bảng thống kê so sánh UCS và A*}
+
+\begin{center}
+	\begin{tabular}{c|r r r r c c}
+		\multirow{2}{*}{Bản đồ} &  \multicolumn{2}{c}{Thời gian chạy} & \multicolumn{2}{c}{Số nút mở} & \multicolumn{2}{c}{A* tối ưu} \\
+		\cmidrule{2-7}
+		& A*     & UCS & A*     & UCS & Manhattan \\
+		\midrule
+		1      & 0.01 & 0.05   & 122  & 720 & {\checkmark} \\
+		2      & 0.005 & 0.004   & 39   & 64     & {\checkmark} \\
+		3      & 0.01 & 0.08   & 54   & 509    & {\checkmark} \\
+		4      & 0.002 & 0.002   & 29   & 55     & {\checkmark} \\
+		5      & 0.07 & 120.1 & 485  & 357203   & {\checkmark} \\
+		6      & 0.01 & 0.009   & 208  & 250    & {\checkmark} \\
+		7      & 0.07 & 0.48   & 715  & 6046   & {\checkmark} \\
+		8      & 0.21 & 0.20   & 2352 & 2383   & {\checkmark} \\
+		9      & 0.004 & 0.009   & 42   & 74     & {\checkmark} \\
+		10     & 0.01 & 0.01   & 198  & 218    & {\checkmark} \\
+		11     & 0.01 & 0.01   & 284  & 296    & {\checkmark} \\
+		12     & 0.04 & 0.08   & 563  & 1225   & {\checkmark} \\
+		13     & 0.13 & 0.17   & 1699 & 2342   & {\checkmark} \\
+		14     & 0.89 & 2.84   & 8108 & 26352  & {\checkmark} \\
+		15     & 0.26 & 0.27   & 2183 & 2505   & {\checkmark} \\
+		16     & 0.28 & 16.3  & 1286 & 57275  \\
+		17     & \multicolumn{6}{c}{Không có lời giải}       \\
+		18     & \multicolumn{6}{c}{Không đủ tài nguyên để chạy bản đồ này}       \\
+	\end{tabular}
+\end{center}
+
+\textbf{Nhận xét:} \\
+\begin{itemize}
+	\item Về mặt thời gian: Ở tất cả các màn, thời gian chạy của UCS luôn lớn hơn
+	A*. Vì UCS phải duyệt qua tất cả nút ở tầng cao cho tới khi tìm được lời giải.
+	Nếu ở tầng hiện tại không chứa lời giải, thuật toán phải đi xuống tầng tiếp
+	theo và lặp lại quá trình duyệt.
+	\item Về số lượng nút được mở: Ở tất cả các màn, số lượng nút đã mở của UCS
+	lớn hơn A*. Vì UCS phải mở ra tất cả các nút cho tới khi tìm được lời giải. Trong khi đó, A* sẽ mở ra các nút có chi phí thấp nhất (Tổng của heuristic và cost).
+	\item Về mặt tối ưu: Lời giải của UCS luôn là lời giải tối ưu trong khi A* không
+	chắc chắn điều đó. Tuy nhiên, lời giải của A* là lời giải tốt vì không quá
+	chênh lệch với lời giải tối ưu.
+\end{itemize}
+
+\end{document}
